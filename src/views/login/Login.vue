@@ -29,7 +29,10 @@
 </template>
 
 <script>
+import {vueSrouce  } from "vue-source";
+Vue.use(vueSrouce)
 export default {
+  
     data(){
         let letterRule = (rule, value, callback) => {
             let reg = /^[a-zA-Z0-9_-]{4,18}$/
@@ -88,6 +91,9 @@ export default {
                     this.loading = true
                     // console.log(err)
                 })
+        },
+        httpLogin(){
+           Vue.http.post('127.0.0.1/')
         }
     }
 }
