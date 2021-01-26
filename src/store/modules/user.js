@@ -19,6 +19,7 @@ const actions = {
     // 用户登录
     login({ commit }, userInfo) {
         const { username } = userInfo;
+        console.log('获取用户名'+username)
         return new Promise((resolve,reject) => {
             setTimeout(() => {
                 if(username === 'admin' || username === 'jerry'){

@@ -8,7 +8,7 @@
             <div class="login-box-from">
                 <el-form :model="loginForm" :rules="rules" ref="loginForm"  class="demo-ruleForm">
                     <el-form-item prop="username">
-                        <el-input v-model="loginForm.username" placeholder="请输入用户名" size="medium">
+                        <el-input v-model="loginForm.name" placeholder="请输入用户名" size="medium">
                             <el-button slot="prepend" icon="el-icon-user"></el-button>
                         </el-input>
                     </el-form-item>
@@ -18,7 +18,7 @@
                         </el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" size="medium" :loading="loading" style="width:100%" @click="submitForm('loginForm')">立即登陆</el-button>
+                        <el-button type="primary" size="medium" :loading="loading" style="width:100%" @click="submitForm()">立即登陆</el-button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -29,8 +29,9 @@
 </template>
 
 <script>
-import {vueSrouce  } from "vue-source";
-Vue.use(vueSrouce)
+import Vue from 'vue'
+import VueResource from 'vue-resource'
+Vue.use(VueResource)
 export default {
   
     data(){
@@ -47,11 +48,11 @@ export default {
         return {
             loading: false, //登陆状态
             loginForm:{  // 登陆表单
-                username: 'admin',
-                password: '123456'
+                name: '',
+                password: ''
             },
             rules:{  //登陆验证规则
-                username:[
+                name:[
                     { required: true, message: '请输入用户名', trigger: 'blur' },
                     { min: 2, max: 18, message: '长度在 2 到 18 个字符', trigger: 'blur' },
                     { validator: letterRule, trigger: 'blur' }
@@ -65,25 +66,27 @@ export default {
         }
     },
     methods:{
-        submitForm(formName){
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    this.loading = true
-                    this.login()
-                } else {
-                    console.log('error submit!!');
-                    return false;
+        submitForm(){
+            console.log (JSON.stringify(this.loginForm) )
+            this.$http.post('http://127.0.0.1:8082/user/login',this.loginForm,'post').then((res)=>{
+                console.log(res)
+                if(res.body){
+                    console.log(11)
+                   this.login()
                 }
-            });
+            })
         },
         login(){
             this.$store
-                .dispatch('user/login',{username: this.loginForm.username})
+                .dispatch('user/login',{username: this.loginForm.name})
                 .then(()=>{
                     this.loading = true
                     // 登陆成功后重定向
                     this.$router.push({
                         path: this.$route.query.redirect || '/index'
+                    })
+                    .catch(err=>{
+                        console.log(err)
                     })
                      
                 })

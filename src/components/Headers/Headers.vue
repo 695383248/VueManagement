@@ -11,7 +11,7 @@
                 <el-tooltip class="item" effect="dark" :content="isFullscreen ? '取消全屏' : '全屏'" placement="bottom">
                     <i :class="isFullscreen ? 'el-icon-full-screen head-screen-news' : 'el-icon-rank head-screen'" @click="buttoncli"></i>
                 </el-tooltip>
-                <el-tooltip class="item" effect="dark" content="有5条未读消息" placement="bottom">
+                <el-tooltip class="item" effect="dark" content="有x条未读消息" placement="bottom">
                     <el-badge is-dot class="item">
                         <i class="el-icon-bell head-news-icon"></i>
                     </el-badge>
@@ -103,7 +103,7 @@ export default {
             switch(command){
                 case 'github':
                     console.log('前往github')
-                    window.open('https://github.com/cgq001/admin-menu')
+                    window.open('https://github.com/695383248')
                 break;
                 case 'quit':
                     let src = this.$store.dispatch('user/resetToken')
